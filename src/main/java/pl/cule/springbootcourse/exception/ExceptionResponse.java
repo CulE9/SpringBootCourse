@@ -1,4 +1,4 @@
-package pl.cule.springbootcourse;
+package pl.cule.springbootcourse.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,9 +1,9 @@
-package pl.cule.springbootcourse;
+package pl.cule.springbootcourse.model;
 
 import lombok.Data;
 
 @Data
-public class User {
+public class UserDTO {
 
     private String firstName;
     private String lastName;
@@ -11,6 +11,5 @@ public class User {
     private String password;
     private boolean author;
     private boolean admin;
-
 
 }

@@ -1,9 +1,9 @@
-package pl.cule.springbootcourse;
+package pl.cule.springbootcourse.model;
 
 import lombok.Data;
 
 @Data
-public class Course {
+public class CourseDTO {
 
     private Long id;
     private String name;

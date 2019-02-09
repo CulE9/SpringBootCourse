@@ -1,4 +1,4 @@
-package pl.cule.springbootcourse;
+package pl.cule.springbootcourse.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

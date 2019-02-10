@@ -7,5 +7,5 @@ public class CourseDTO {
 
     private Long id;
     private String name;
-    private int lenghtInSecond;
+
 }

@@ -1,44 +1,47 @@
 package pl.cule.springbootcourse.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.cule.springbootcourse.exception.WrongIdException;
 import pl.cule.springbootcourse.model.UserDTO;
-
-import java.util.ArrayList;
-import java.util.List;
+import pl.cule.springbootcourse.service.UserService;
 
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
 
-    private List<UserDTO> userDTOS = new ArrayList<>();
+    @Autowired
+    private UserService userService;
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(value = "/registry", method = RequestMethod.POST)
-    public UserDTO registry(@RequestBody UserDTO userDTO) {
-        return userDTO;
+    public UserDTO registry(@RequestBody UserDTO userDTO){
+        if(idExist(userDTO))
+            throw new WrongIdException("Tworzony użytkownik nie powinien posiadać ID.");
+        return userService.createUser(userDTO);
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.PUT)
-    public UserDTO edit(@RequestBody UserDTO userDTO) {
-        return userDTO;
+    public UserDTO edit(@RequestBody UserDTO userDTO){
+        if(!idExist(userDTO))
+            throw new WrongIdException("Edytowany użytkownik musi posiadać ID.");
+        return userService.editUser(userDTO);
     }
 
     @RequestMapping(value = "/confirm/{id}", method = RequestMethod.PUT)
-    public UserDTO confirm(@PathVariable(value = "id") Long id) {
+    public UserDTO confirm(@PathVariable(value = "id") Long id){
         return new UserDTO();
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.PUT)
-    public UserDTO add(@RequestBody UserDTO userDTO) {
-        userDTOS.add(userDTO);
-        System.out.println("Utworzono: " + userDTO.getFirstName() + " " + userDTO.getLastName());
-        return userDTO;
+    public UserDTO add(@RequestBody UserDTO userDTO){
+        if(idExist(userDTO))
+            throw new WrongIdException("Tworzony użytkownik nie powinien posiadać ID.");
+        return userService.createUser(userDTO);
     }
 
-    @RequestMapping(value = "/userList", method = RequestMethod.GET)
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        return new ResponseEntity<>(userDTOS, HttpStatus.OK);
+    private boolean idExist(UserDTO userDTO) {
+        return userDTO.getId() != null;
     }
 }
